@@ -24,25 +24,25 @@ bool readSensorPacket() {
   //Each of the floats is a 4 byte float (32 bits)
   //NOTE: Can come up with a more creative Wire.read() solution later
   for(int i=0; i<4; i++)
-    sensorPacket.tstamp[i] = Wire.read();
+    sensorPacket.tstamp.arr[i] = Wire.read();
 
   for(int i=0; i<4; i++)
-    sensorPacket.accdata1 = Wire.read();
+    sensorPacket.accdata1.arr[i] = Wire.read();
 
   for(int i=0; i<4; i++)
-    sensorPacket.accdata2 = Wire.read();
+    sensorPacket.accdata2.arr[i] = Wire.read();
 
   for(int i=0; i<4; i++)
-    sensorPacket.accdata3 = Wire.read();
+    sensorPacket.accdata3.arr[i] = Wire.read();
+
+  for (int i = 0; i < 4; i++)
+	  sensorPacket.tempdata1.arr[i] = Wire.read();
 
   for(int i=0; i<4; i++)
-    sensorPacket.tempdata1 = Wire.read();
+    sensorPacket.tempdata2.arr[i] = Wire.read();
 
   for(int i=0; i<4; i++)
-    sensorPacket.tempdata2 = Wire.read();
-
-  for(int i=0; i<4; i++)
-    sensorPacket.tempdata3 = Wire.read();
+    sensorPacket.tempdata3.arr[i] = Wire.read();
 
   sensorPacket.endByte = Wire.read();
 
