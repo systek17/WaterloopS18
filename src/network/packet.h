@@ -19,17 +19,17 @@
 
 struct SensorPacket
 {
-	uint_8 startByte;
-	uint_8 eStates;
-	uint_8 currentPodState;
-	float_32 tstamp;
-	float_32 accdata1;
-	float_32 accdata2;
-	float_32 accdata3;
-	float_32 tempdata2;
-	float_32 tempdata3;
-	float_32 tempdata4;
-	uint_8 endByte;
+	uint8_t startByte;
+	uint8_t eStates;
+	uint8_t currentPodState;
+	float tstamp;
+	float accdata1;
+	float accdata2;
+	float accdata3;
+	float tempdata2;
+	float tempdata3;
+	float tempdata4;
+	uint8_t endByte;
 
 	struct Error
 	{
@@ -78,7 +78,51 @@ struct SensorPacket
 
 struct CommandPacket
 {
-	const uint_8 startByte = 0x56;
-	uint_8 stateID;
-	const uint_8 endByte = 0x23;
+	const uint8_t startByte = 0x56;
+	uint8_t stateID;
+	const uint8_t endByte = 0x23;
+	CommandPacket() : stateID(IDLE) {}
+	void setState(const uint8_t &command)
+	{
+		stateID = command;
+	}
+};
+
+class Pod
+{
+private:
+
+	int sendCommand(uint8_t command)
+	{
+		int errcode = 0;
+		CommandPacket packet;
+		packet.setState(command);
+
+		/* code for sending this packet to the pod */
+
+		return errcode;
+	}
+public:
+	int setReady()
+	{
+		return sendCommand(READY);
+
+		//state = packet.gError.gAccSensor3()
+	}
+	int accelerate()
+	{
+		return sendCommand(ACCEL);
+	}
+	int coast()
+	{
+		return sendCommand(COAST);
+	}
+	int brake()
+	{
+		return sendCommand(BRAKE);
+	}
+	int stop()
+	{
+		return sendCommand(STOP);
+	}
 };
