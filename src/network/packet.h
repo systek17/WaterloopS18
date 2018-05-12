@@ -21,6 +21,12 @@
 struct float32_t
 {
 	uint8_t arr[4];
+	float32_t() {
+		arr[0] = -1;
+		arr[1] = -1;
+		arr[2] = -1;
+		arr[3] = -1;
+	}
 	float32_t(uint8_t input[4])
 	{
 		arr[0] = input[0];
@@ -39,6 +45,8 @@ struct float32_t
 
 struct SensorPacket
 {
+    SensorPacket() {};
+
 	uint8_t startByte;
 	uint8_t eStates;
 	uint8_t currentPodStateID;

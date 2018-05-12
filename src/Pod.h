@@ -5,6 +5,7 @@
 class Pod
 {
 private:
+<<<<<<< HEAD
 	GetError error;
 	uint8_t state;
 	SensorPacket packet;
@@ -12,10 +13,37 @@ private:
 	{
 		int errcode = 0;
 		CommandPacket packet(command);
+=======
+	bool sendCommand(uint8_t command) {
+		//Error checking
+		if(!(command == IDLE || command == READY || command == ACCEL || command == COAST ||
+			command == BRAKE || command == STOP))
+			return false;
+		}
 
-		/* code for sending this packet to the pod */
+		if(command == COAST) //Not allowed to switch to COAST command
+			return false;
 
-		return errcode;
+		if(this.state == IDLE && command != READY) 
+			return false;
+
+		if(command == ACCEL && this.state != READY)
+			return false;
+
+		if(command == BRAKE && this.state != ACCEL)
+			return false;
+>>>>>>> edd3fd63b2663315c244fc9bdbd242e7e61e4a33
+
+		//Can check if we need to add more error checking here
+
+		Wire.beginTransmission(POD_ADDRESS);
+		byte buffer[3];
+		buffer[0] = STX;
+		buffer[1] = command;
+		buffer[2] = ETX;
+		Wire.write(buffer,3);
+		Wire.endTransmission();
+		return true;
 	}
 public:
 	Pod() : state(IDLE) {}
@@ -30,13 +58,13 @@ public:
 	}
 
 	/* command functions */
-	int setReady()
+	bool setReady()
 	{
 		return sendCommand(READY);
 
 		//state = packet.gError.gAccSensor3()
 	}
-	int setAccel()
+	bool setAccel()
 	{
 		if (gState() == READY)
 			return sendCommand(ACCEL);
@@ -44,13 +72,14 @@ public:
 	}
 
 	/* Don't use this function or you'll be >> rejected << */
-	//int setCoast()
+	//bool setCoast()
 	//{
 	//	return sendCommand(COAST);
 	//}
 
-	int setBrake()
+	bool setBrake()
 	{
+<<<<<<< HEAD
 		if (gState() == ACCEL)
 		{
 			if (!getVelo())
@@ -61,6 +90,13 @@ public:
 			return 1;
 		}
 		else return 0;
+=======
+		return sendCommand(BRAKE);
+	}
+	bool setStop()
+	{
+		return sendCommand(STOP);
+>>>>>>> edd3fd63b2663315c244fc9bdbd242e7e61e4a33
 	}
 
 	/* get velocity */
