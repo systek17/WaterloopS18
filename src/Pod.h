@@ -5,10 +5,10 @@ class Pod
 {
 
 private:
-	bool sendCommand(String command) {
+	bool sendCommand(uint8_t command) {
   	//Error checking
-  	if(!(command == "IDLE" || command == "READY" || command == "ACCEL" || command == "COAST" ||
-        	command == "BRAKE" || command == "STOP"))
+  	if(!(command == IDLE || command == READY || command == ACCEL || command == COAST ||
+        	command == BRAKE || command == STOP))
         	return false;
 	}
 public:
