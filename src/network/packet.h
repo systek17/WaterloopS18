@@ -28,9 +28,12 @@ struct float32_t
 		arr[2] = input[2];
 		arr[3] = input[3];
 	}
-	int[] operator=()
+	void operator=(const float32_t& input)
 	{
-
+		arr[0] = input.arr[0];
+		arr[1] = input.arr[1];
+		arr[2] = input.arr[2];
+		arr[3] = input.arr[3];
 	}
 };
 

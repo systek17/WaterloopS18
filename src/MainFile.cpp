@@ -36,13 +36,13 @@ bool readSensorPacket() {
     sensorPacket.accdata3 = Wire.read();
 
   for(int i=0; i<4; i++)
+    sensorPacket.tempdata1 = Wire.read();
+
+  for(int i=0; i<4; i++)
     sensorPacket.tempdata2 = Wire.read();
 
   for(int i=0; i<4; i++)
     sensorPacket.tempdata3 = Wire.read();
-
-  for(int i=0; i<4; i++)
-    sensorPacket.tempdata4 = Wire.read();
 
   sensorPacket.endByte = Wire.read();
 
