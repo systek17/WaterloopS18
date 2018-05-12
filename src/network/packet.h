@@ -33,35 +33,47 @@ struct SensorPacket
 
 	struct Error
 	{
-		int gPodSID()
+		/* Pod State ID */
+		int gPodSID() //First Bit
 		{
 			return eStates & BIT0;
 		}
-		int gAccSensor1()
+		/* Acceleration Sensor 1 */
+		int gAccSensor1() //Second Bit
 		{
 			return eStates & BIT1;
 		}
-		int gAccSensor2()
+
+		/* Acceleration Sensor 2 */
+		int gAccSensor2() //Third Bit
 		{
 			return eStates & BIT2;
 		}
-		int gAccSensor3()
+
+		/* Acceleration Sensor 3 */
+		int gAccSensor3() //Fourth Bit
 		{
 			return eStates & BIT3;
 		}
-		int gTempSensor1()
+
+		/* Temperature Sensor 1 */
+		int gTempSensor1() //Fifth Bit
 		{
 			return eStates & BIT4;
 		}
-		int gTempSensor2()
+
+		/* Temperature Sensor 2 */
+		int gTempSensor2() //Sixth Bit
 		{
 			return eStates & BIT5;
 		}
-		int gTempSensor3()
+
+		/* Temperature Sensor 3 */
+		int gTempSensor3() //Seventh Bit
 		{
 			return eStates & BIT6;
 		}
-	};
+	} gError;
 };
 
 struct CommandPacket
@@ -70,11 +82,3 @@ struct CommandPacket
 	uint_8 stateID;
 	uint_8 endByte;
 };
-
-
-
-void getdata()
-{
-	SensorPacket sensorpak;
-	sensorpak.eStates & podsID;
-}
