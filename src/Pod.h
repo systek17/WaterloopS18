@@ -5,15 +5,11 @@ class Pod
 {
 
 private:
-	GetError error;
-	int sendCommand(uint8_t command)
-	{
-		int errcode = 0;
-		CommandPacket packet(command);
-
-		/* code for sending this packet to the pod */
-
-		return errcode;
+	bool sendCommand(String command) {
+  	//Error checking
+  	if(!(command == "IDLE" || command == "READY" || command == "ACCEL" || command == "COAST" ||
+        	command == "BRAKE" || command == "STOP"))
+        	return false;
 	}
 public:
 
