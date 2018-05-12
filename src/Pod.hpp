@@ -1,6 +1,6 @@
 #pragma once
-#include "network/packet.h"
-#include "common/common.h"
+#include "network/packet.hpp"
+#include "common/common.hpp"
 
 class Pod
 {
@@ -10,24 +10,23 @@ private:
         if(!(command == IDLE || command == READY || command == ACCEL || command == COAST ||
             command == BRAKE || command == STOP))
             return false;
-        }
 
         if(command == COAST) //Not allowed to switch to COAST command
             return false;
 
-        if(this.state == IDLE && command != READY) 
-            return false;
+        // if(this->state == IDLE && command != READY)
+            // return false;
 
-        if(command == ACCEL && this.state != READY)
-            return false;
+        // if(command == ACCEL && this->state != READY)
+            // return false;
 
-        if(command == BRAKE && this.state != ACCEL)
-            return false;
+        // if(command == BRAKE && this->state != ACCEL)
+            // return false;
 
         //Can check if we need to add more error checking here
 
         Wire.beginTransmission(POD_ADDRESS);
-        byte buffer[3];
+        uint8_t buffer[3];
         buffer[0] = STX;
         buffer[1] = command;
         buffer[2] = ETX;
@@ -35,16 +34,17 @@ private:
         Wire.endTransmission();
         return true;
     }
+
 public:
     Pod() : state(IDLE) {}
 
     inline uint8_t gState()
     {
-        return state;
+        // return state;
     }
     void update(SensorPacket &pack)
     {
-        packet = pack;
+        // packet = pack;
     }
 
     /* command functions */
@@ -71,10 +71,10 @@ public:
     {
         if (gState() == ACCEL)
         {
-            if (!getVelo())
-            {
-                state = STOP;
-            }
+            // if (!getVelo())
+            // {
+                // state = STOP;
+            // }
             sendCommand(BRAKE);
             return 1;
         }
@@ -89,7 +89,7 @@ public:
     /* get velocity */
     float32_t getVelo()
     {
-        auto velocity = integrate(ave({ packet->gAccSensor1(), packet->gAccSensor2(), packet->gAccSensor3() }));
+        // auto velocity = integrate(ave({ packet->gAccSensor1(), packet->gAccSensor2(), packet->gAccSensor3() }));
         float32_t velocity;
         return velocity;
     }
@@ -114,7 +114,7 @@ public:
 
     GetError& check_error()
     {
-        error.setError(packet);
+        // error.setError(packet);
     }
 };
 

@@ -1,7 +1,8 @@
-#include "Pod.h"
+#include "Pod.hpp"
 #include <Wire.h>
-#include "network/packet.h"
-#include "json/ArduinoJson.h"
+#include "Arduino.h"
+#include "network/packet.hpp"
+#include "json/ArduinoJson.hpp"
 
 using namespace std;
 
