@@ -83,3 +83,7 @@ struct CommandPacket
 	uint8_t stateID;
 	uint8_t endByte;
 };
+	const uint8_t startByte = 0x56;
+	uint8_t stateID;
+	const uint8_t endByte = 0x23;
+};
