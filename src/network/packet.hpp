@@ -1,7 +1,6 @@
 #pragma once
-
 #include <cstdint>
-#include "../common/common.hpp"
+#include "../common/common.h"
 
 #define IDLE 0x00
 #define READY 0x01
@@ -9,6 +8,9 @@
 #define COAST 0x03
 #define BRAKE 0x04
 #define STOP 0x05
+
+#define STX 0x56;
+#define ETX 0x32;
 
 #define BIT0 0x01
 #define BIT1 0x02
@@ -18,6 +20,8 @@
 #define BIT5 0x20
 #define BIT6 0x40
 #define BIT7 0x80
+
+// char static_assert_float32[1 - (2 * ((sizeof(float) * CHAR_BIT) != 32))];
 
 struct SensorPacket
 {
@@ -119,9 +123,9 @@ struct SensorPacket
 struct GetError
 {
     uint8_t error_state;
-    void setError(const SensorPacket& packet)
+    void setError(const SensorPacket* packet)
     {
-        error_state = packet.eStates;
+        error_state = packet->eStates;
     }
     /* Pod State ID */
     int gPodSID() const //First Bit
@@ -167,8 +171,8 @@ struct GetError
 
 struct CommandPacket
 {
-    const uint8_t startByte = 0x56;
+    const uint8_t startByte = STX;
     uint8_t stateID;
-    const uint8_t endByte = 0x23;
+    const uint8_t endByte = ETX;
     CommandPacket(const uint8_t &command) : stateID(command) {}
 };
