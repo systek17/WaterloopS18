@@ -1,6 +1,6 @@
 #pragma once
-#include "network/packet.h"
-#include "common/common.h"
+#include "network/packet.hpp"
+#include "common/common.hpp"
 #include <Wire.h>
 
 #define POD_ADDRESS 0x5A;

@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-#include "../common/common.h"
+#include "../common/common.hpp"
 
 #define IDLE 0x00
 #define READY 0x01
