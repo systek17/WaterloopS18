@@ -1,0 +1,30 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CXX	Makefile	/^CXX = gcc$/;"	m
+CXXFLAGS	Makefile	/^CXXFLAGS = -Wall -MMD -Werror=vla -g$/;"	m
+DEPENDS	Makefile	/^DEPENDS = ${OBJECTS:.o=.d}$/;"	m
+DumpToSerial	MainFile.cpp	/^void DumpToSerial(float velocity, float distance, $/;"	f
+ETX	MainFile.cpp	20;"	d	file:
+EXEC	Makefile	/^EXEC = waterloop$/;"	m
+OBJECTS	Makefile	/^OBJECTS = SomeFile.o$/;"	m
+Pod	Pod.h	/^class Pod$/;"	c
+STX	MainFile.cpp	19;"	d	file:
+check_error	Pod.h	/^	GetError& check_error(SensorPacket * packet)$/;"	f	class:Pod
+getAccel	Pod.h	/^	float getAccel(SensorPacket * packet)$/;"	f	class:Pod
+getDist	Pod.h	/^	int getDist(SensorPacket * packet)$/;"	f	class:Pod
+getTemp	Pod.h	/^	float getTemp(SensorPacket * packet)$/;"	f	class:Pod
+getVelo	Pod.h	/^	int getVelo(SensorPacket * packet)$/;"	f	class:Pod
+loop	MainFile.cpp	/^void loop() {$/;"	f
+readSensorPacket	MainFile.cpp	/^bool readSensorPacket() {$/;"	f
+sendCommand	Pod.h	/^	bool sendCommand(String command) {$/;"	f	class:Pod
+sensorPacket	MainFile.cpp	/^SensorPacket sensorPacket;$/;"	v
+setAccel	Pod.h	/^	int setAccel()$/;"	f	class:Pod
+setBrake	Pod.h	/^	int setBrake()$/;"	f	class:Pod
+setReady	Pod.h	/^	int setReady()$/;"	f	class:Pod
+setStop	Pod.h	/^	int setStop()$/;"	f	class:Pod
+setup	MainFile.cpp	/^void setup() {$/;"	f
+somefunction	Pod.h	/^void somefunction()$/;"	f
