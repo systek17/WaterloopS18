@@ -64,7 +64,7 @@ struct SensorPacket
 	/* Pod State ID */
 	uint8_t gPodSID() const //First Bit
 	{
-		return currentPodStateID & BIT0;
+		return currentPodStateID;
 	}
 	void sPodSID(const uint8_t& ID)
 	{
@@ -135,9 +135,9 @@ struct SensorPacket
 struct GetError
 {
 	uint8_t error_state;
-	void setError(SensorPacket* packet)
+	void setError(const SensorPacket& packet)
 	{
-		error_state = packet->eStates;
+		error_state = packet.eStates;
 	}
 	/* Pod State ID */
 	int gPodSID() const //First Bit

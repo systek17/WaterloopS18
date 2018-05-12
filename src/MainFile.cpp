@@ -8,7 +8,7 @@ uint8_t POD_ADDRESS = 0x5A;
 #define ETX = 0x32;
 SensorPacket sensorPacket;
 
-bool readSensorPacket() {
+bool readSensorPacket(Pod& pod) {
   Wire.beginTransmission(POD_ADDRESS);
   Wire.requestFrom(POD_ADDRESS, 32);
 
@@ -45,6 +45,7 @@ bool readSensorPacket() {
     sensorPacket.tempdata3.arr[i] = Wire.read();
 
   sensorPacket.endByte = Wire.read();
+  pod.update(sensorPacket);
 
   Wire.endTransmission();
   return true;
@@ -65,8 +66,12 @@ void loop() {
 int main()
 {
 	Pod pod;
-
+	bool isOK;
+	while (isOK)
+	{
+		isOK = readSensorPacket(pod);
+	}
 	/* this is how you check for error (it accepts the pointer) */
-	auto error = pod.check_error(packet);
+	GetError error = pod.check_error(packet);
 	error.gAccSensor1();
 }

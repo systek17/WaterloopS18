@@ -1,11 +1,13 @@
 #pragma once
-#include "network\packet.h"
+#include "network/packet.h"
+#include "common/common.h"
 
 class Pod
 {
-
 private:
 	GetError error;
+	uint8_t state;
+	SensorPacket packet;
 	int sendCommand(uint8_t command)
 	{
 		int errcode = 0;
@@ -16,6 +18,16 @@ private:
 		return errcode;
 	}
 public:
+	Pod() : state(IDLE) {}
+
+	inline uint8_t gState()
+	{
+		return state;
+	}
+	void update(SensorPacket &pack)
+	{
+		packet = pack;
+	}
 
 	/* command functions */
 	int setReady()
@@ -26,7 +38,9 @@ public:
 	}
 	int setAccel()
 	{
-		return sendCommand(ACCEL);
+		if (gState() == READY)
+			return sendCommand(ACCEL);
+		else return 0;
 	}
 
 	/* Don't use this function or you'll be >> rejected << */
@@ -37,38 +51,45 @@ public:
 
 	int setBrake()
 	{
-		return sendCommand(BRAKE);
-	}
-	int setStop()
-	{
-		return sendCommand(STOP);
+		if (gState() == ACCEL)
+		{
+			if (!getVelo())
+			{
+				state = STOP;
+			}
+			sendCommand(BRAKE);
+			return 1;
+		}
+		else return 0;
 	}
 
 	/* get velocity */
-	int getVelo(SensorPacket * packet)
+	float32_t getVelo()
 	{
-
+		auto velocity = integrate(ave({ packet->gAccSensor1(), packet->gAccSensor2(), packet->gAccSensor3() }));
+		float32_t velocity;
+		return velocity;
 	}
 
 	/* get acceleration */
-	float getAccel(SensorPacket * packet)
+	float32_t getAccel()
 	{
 
 	}
 
 	/* get Temperature */
-	float getTemp(SensorPacket * packet)
+	float32_t getTemp()
 	{
 
 	}
 
 	/* get Distance */
-	int getDist(SensorPacket * packet)
+	int getDist()
 	{
 
 	}
 
-	GetError& check_error(SensorPacket * packet)
+	GetError& check_error()
 	{
 		error.setError(packet);
 	}
