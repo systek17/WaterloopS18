@@ -16,20 +16,21 @@
 #define BIT6 0x40
 #define BIT7 0x80
 
+// char static_assert_float32[1 - (2 * ((sizeof(float) * CHAR_BIT) != 32))];
 
 struct SensorPacket
 {
-	uint_8 startByte;
-	uint_8 eStates;
-	uint_8 currentPodState;
-	float_32 tstamp;
-	float_32 accdata1;
-	float_32 accdata2;
-	float_32 accdata3;
-	float_32 tempdata2;
-	float_32 tempdata3;
-	float_32 tempdata4;
-	uint_8 endByte;
+	uint8_t startByte;
+	uint8_t eStates;
+	uint8_t currentPodState;
+	float tstamp;
+	float accdata1;
+	float accdata2;
+	float accdata3;
+	float tempdata2;
+	float tempdata3;
+	float tempdata4;
+	uint8_t endByte;
 
 	struct Error
 	{
@@ -78,7 +79,7 @@ struct SensorPacket
 
 struct CommandPacket
 {
-	uint_8 startByte;
-	uint_8 stateID;
-	uint_8 endByte;
+	uint8_t startByte;
+	uint8_t stateID;
+	uint8_t endByte;
 };
