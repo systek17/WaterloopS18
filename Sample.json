@@ -1,0 +1,12 @@
+{
+    "Sample": {
+        "Velocity": "SomeData",
+        "Distance": "SomeData",
+        "Acceleration": "SomeData",
+        "Propulsion": "SomeData",
+        "BrakingTemp": "SomeData",
+        "MotherboardTemp": "SomeData",
+        "PodState": "SomeData",
+        "TimeSinceStart": "SomeData",
+    }
+}
