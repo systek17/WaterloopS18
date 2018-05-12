@@ -40,7 +40,7 @@ bool readSensorPacket(Pod& pod) {
     sensorPacket.accdata3.arr[i] = Wire.read();
 
   for (int i = 0; i < 4; i++)
-	  sensorPacket.tempdata1.arr[i] = Wire.read();
+      sensorPacket.tempdata1.arr[i] = Wire.read();
 
   for(int i=0; i<4; i++)
     sensorPacket.tempdata2.arr[i] = Wire.read();
@@ -92,20 +92,18 @@ void loop() {
 
 int main()
 {
-	Pod pod;
-<<<<<<< HEAD
-	bool isOK;
-	while (isOK)
-	{
-		isOK = readSensorPacket(pod);
-	}
-=======
+    Pod pod;
+
+    bool isOK;
+    while (isOK)
+    {
+        isOK = readSensorPacket(pod);
+    }
 
     // Dummy dump to serial for now.
     DumpToSerial(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0);
 
->>>>>>> edd3fd63b2663315c244fc9bdbd242e7e61e4a33
-	/* this is how you check for error (it accepts the pointer) */
-	GetError error = pod.check_error(packet);
-	error.gAccSensor1();
+    /* this is how you check for error (it accepts the pointer) */
+    GetError error = pod.check_error(packet);
+    error.gAccSensor1();
 }
