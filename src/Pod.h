@@ -38,28 +38,28 @@ private:
 public:
 
 	/* command functions */
-	int setReady()
+	bool setReady()
 	{
 		return sendCommand(READY);
 
 		//state = packet.gError.gAccSensor3()
 	}
-	int setAccel()
+	bool setAccel()
 	{
 		return sendCommand(ACCEL);
 	}
 
 	/* Don't use this function or you'll be >> rejected << */
-	//int setCoast()
+	//bool setCoast()
 	//{
 	//	return sendCommand(COAST);
 	//}
 
-	int setBrake()
+	bool setBrake()
 	{
 		return sendCommand(BRAKE);
 	}
-	int setStop()
+	bool setStop()
 	{
 		return sendCommand(STOP);
 	}
