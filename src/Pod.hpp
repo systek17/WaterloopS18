@@ -1,4 +1,5 @@
 #pragma once
+
 #include "network/packet.hpp"
 #include "common/common.hpp"
 

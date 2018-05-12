@@ -1,6 +1,6 @@
 #include "Pod.hpp"
 #include <Wire.h>
-#include "Arduino.h"
+#include <Arduino.h>
 #include "network/packet.hpp"
 #include "json/ArduinoJson.hpp"
 
