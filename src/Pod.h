@@ -6,10 +6,34 @@ class Pod
 
 private:
 	bool sendCommand(uint8_t command) {
-  	//Error checking
-  	if(!(command == IDLE || command == READY || command == ACCEL || command == COAST ||
-        	command == BRAKE || command == STOP))
-        	return false;
+		//Error checking
+		if(!(command == IDLE || command == READY || command == ACCEL || command == COAST ||
+			command == BRAKE || command == STOP))
+			return false;
+		}
+
+		if(command == COAST) //Not allowed to switch to COAST command
+			return false;
+
+		if(this.state == IDLE && command != READY) 
+			return false;
+
+		if(command == ACCEL && this.state != READY)
+			return false;
+
+		if(command == BRAKE && this.state != ACCEL)
+			return false;
+
+		//Can check if we need to add more error checking here
+
+		Wire.beginTransmission(POD_ADDRESS);
+		byte buffer[3];
+		buffer[0] = STX;
+		buffer[1] = command;
+		buffer[2] = ETX;
+		Wire.write(buffer,3);
+		Wire.endTransmission();
+		return true;
 	}
 public:
 
