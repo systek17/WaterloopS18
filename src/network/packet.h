@@ -78,7 +78,7 @@ struct SensorPacket
 
 struct CommandPacket
 {
-	uint_8 startByte;
+	const uint_8 startByte = 0x56;
 	uint_8 stateID;
-	uint_8 endByte;
+	const uint_8 endByte = 0x23;
 };
