@@ -1,5 +1,5 @@
 #pragma once
-#include "network\packet.h"
+#include "Pod.h"
 #include <Wire.h>
 
 uint8_t POD_ADDRESS = 0x5A;
@@ -64,5 +64,9 @@ void loop() {
 
 int main()
 {
+	Pod pod;
 
+	/* this is how you check for error (it accepts the pointer) */
+	auto error = pod.check_error(packet);
+	error.gAccSensor1();
 }
