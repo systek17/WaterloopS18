@@ -5,8 +5,6 @@
 using namespace std;
 
 
-
-
 bool readSensorPacket(Pod* pod)
 {
   pod->wire->beginTransmission(POD_ADDRESS);
@@ -96,7 +94,6 @@ int main()
 	{
 		isOK = readSensorPacket(pod);
 	}
-
 
     // Dummy dump to serial for now.
     DumpToSerial(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, serial);
