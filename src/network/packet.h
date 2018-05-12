@@ -1,4 +1,6 @@
+#pragma once
 #include <cstdint>
+#include "..\common\common.h"
 
 #define IDLE 0x00
 #define READY 0x01
@@ -6,6 +8,9 @@
 #define COAST 0x03
 #define BRAKE 0x04
 #define STOP 0x05
+
+#define STX 0x56;
+#define ETX 0x32;
 
 #define BIT0 0x01
 #define BIT1 0x02
@@ -17,31 +22,6 @@
 #define BIT7 0x80
 
 // char static_assert_float32[1 - (2 * ((sizeof(float) * CHAR_BIT) != 32))];
-
-struct float32_t
-{
-	uint8_t arr[4];
-	float32_t() {
-		arr[0] = -1;
-		arr[1] = -1;
-		arr[2] = -1;
-		arr[3] = -1;
-	}
-	float32_t(uint8_t input[4])
-	{
-		arr[0] = input[0];
-		arr[1] = input[1];
-		arr[2] = input[2];
-		arr[3] = input[3];
-	}
-	void operator=(const float32_t& input)
-	{
-		arr[0] = input.arr[0];
-		arr[1] = input.arr[1];
-		arr[2] = input.arr[2];
-		arr[3] = input.arr[3];
-	}
-};
 
 struct SensorPacket
 {
@@ -143,9 +123,9 @@ struct SensorPacket
 struct GetError
 {
 	uint8_t error_state;
-	void setError(const SensorPacket& packet)
+	void setError(const SensorPacket* packet)
 	{
-		error_state = packet.eStates;
+		error_state = packet->eStates;
 	}
 	/* Pod State ID */
 	int gPodSID() const //First Bit
@@ -191,8 +171,8 @@ struct GetError
 
 struct CommandPacket
 {
-	const uint8_t startByte = 0x56;
+	const uint8_t startByte = STX;
 	uint8_t stateID;
-	const uint8_t endByte = 0x23;
+	const uint8_t endByte = ETX;
 	CommandPacket(const uint8_t &command) : stateID(command) {}
 };
