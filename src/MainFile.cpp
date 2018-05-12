@@ -1,19 +1,6 @@
-<<<<<<< HEAD
-#include "Pod.hpp"
-#include <Wire.h>
-#include <Arduino.h>
-#include "network/packet.hpp"
-#include "json/ArduinoJson.hpp"
-||||||| merged common ancestors
-#include "Pod.h"
-#include <Wire.h>
-#include "network/packet.h"
-#include "json/ArduinoJson.h"
-=======
 #include "Pod.h"
 #include "network/packet.h"
 #include "json/ArduinoJson.h"
->>>>>>> 1e91f9e55578762c0210d0c79f5338bd2162ad0c
 
 using namespace std;
 
@@ -49,13 +36,7 @@ bool readSensorPacket(Pod* pod)
     sensorPacket.accdata3.arr[i] = pod->wire->read();
 
   for (int i = 0; i < 4; i++)
-<<<<<<< HEAD
-      sensorPacket.tempdata1.arr[i] = Wire.read();
-||||||| merged common ancestors
-	  sensorPacket.tempdata1.arr[i] = Wire.read();
-=======
 	  sensorPacket.tempdata1.arr[i] = pod->wire->read();
->>>>>>> 1e91f9e55578762c0210d0c79f5338bd2162ad0c
 
   for(int i=0; i<4; i++)
     sensorPacket.tempdata2.arr[i] = pod->wire->read();
@@ -104,24 +85,6 @@ void setup(Pod *pod, Serial* serial)
 
 int main()
 {
-<<<<<<< HEAD
-    Pod pod;
-
-    bool isOK;
-    while (isOK)
-    {
-        isOK = readSensorPacket(pod);
-    }
-||||||| merged common ancestors
-	Pod pod;
-<<<<<<< HEAD
-	bool isOK;
-	while (isOK)
-	{
-		isOK = readSensorPacket(pod);
-	}
-=======
-=======
 	Wire wire;
 	Pod pod(wire);
 
@@ -133,21 +96,9 @@ int main()
 	{
 		isOK = readSensorPacket(pod);
 	}
->>>>>>> 1e91f9e55578762c0210d0c79f5338bd2162ad0c
 
 
-<<<<<<< HEAD
-    /* this is how you check for error (it accepts the pointer) */
-    GetError error = pod.check_error(packet);
-    error.gAccSensor1();
-||||||| merged common ancestors
->>>>>>> edd3fd63b2663315c244fc9bdbd242e7e61e4a33
-	/* this is how you check for error (it accepts the pointer) */
-	GetError error = pod.check_error(packet);
-	error.gAccSensor1();
-=======
     // Dummy dump to serial for now.
     DumpToSerial(1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, serial);
 	/* this is how you check for error (it accepts the pointer) */
->>>>>>> 1e91f9e55578762c0210d0c79f5338bd2162ad0c
 }
