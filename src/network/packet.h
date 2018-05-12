@@ -32,58 +32,116 @@ struct SensorPacket
 	float tempdata4;
 	uint8_t endByte;
 
-	struct Error
+	/* Pod State ID */
+	int gPodSID() //First Bit
 	{
-		/* Pod State ID */
-		int gPodSID() //First Bit
-		{
-			return eStates & BIT0;
-		}
-		/* Acceleration Sensor 1 */
-		int gAccSensor1() //Second Bit
-		{
-			return eStates & BIT1;
-		}
+		return eStates & BIT0;
+	}
+	/* Acceleration Sensor 1 */
+	int gAccSensor1() //Second Bit
+	{
+		return eStates & BIT1;
+	}
 
-		/* Acceleration Sensor 2 */
-		int gAccSensor2() //Third Bit
-		{
-			return eStates & BIT2;
-		}
+	/* Acceleration Sensor 2 */
+	int gAccSensor2() //Third Bit
+	{
+		return eStates & BIT2;
+	}
 
-		/* Acceleration Sensor 3 */
-		int gAccSensor3() //Fourth Bit
-		{
-			return eStates & BIT3;
-		}
+	/* Acceleration Sensor 3 */
+	int gAccSensor3() //Fourth Bit
+	{
+		return eStates & BIT3;
+	}
 
-		/* Temperature Sensor 1 */
-		int gTempSensor1() //Fifth Bit
-		{
-			return eStates & BIT4;
-		}
+	/* Temperature Sensor 1 */
+	int gTempSensor1() //Fifth Bit
+	{
+		return eStates & BIT4;
+	}
 
-		/* Temperature Sensor 2 */
-		int gTempSensor2() //Sixth Bit
-		{
-			return eStates & BIT5;
-		}
+	/* Temperature Sensor 2 */
+	int gTempSensor2() //Sixth Bit
+	{
+		return eStates & BIT5;
+	}
 
-		/* Temperature Sensor 3 */
-		int gTempSensor3() //Seventh Bit
-		{
-			return eStates & BIT6;
-		}
-	} gError;
+	/* Temperature Sensor 3 */
+	int gTempSensor3() //Seventh Bit
+	{
+		return eStates & BIT6;
+	}
 };
 
 struct CommandPacket
 {
-	uint8_t startByte;
-	uint8_t stateID;
-	uint8_t endByte;
-};
 	const uint8_t startByte = 0x56;
 	uint8_t stateID;
 	const uint8_t endByte = 0x23;
+	CommandPacket(const uint8_t &command) : stateID(command) {}
+};
+
+class Pod
+{
+private:
+
+	int sendCommand(uint8_t command)
+	{
+		int errcode = 0;
+		CommandPacket packet(command);
+
+		/* code for sending this packet to the pod */
+
+		return errcode;
+	}
+public:
+
+	/* command functions */
+	int setReady()
+	{
+		return sendCommand(READY);
+
+		//state = packet.gError.gAccSensor3()
+	}
+	int setAccel()
+	{
+		return sendCommand(ACCEL);
+	}
+	int setCoast()
+	{
+		return sendCommand(COAST);
+	}
+	int setBrake()
+	{
+		return sendCommand(BRAKE);
+	}
+	int setStop()
+	{
+		return sendCommand(STOP);
+	}
+
+	/* get velocity */
+	int getVelo(SensorPacket * packet)
+	{
+
+	}
+
+	/* get acceleration */
+	float getAccel(SensorPacket * packet)
+	{
+
+	}
+
+	/* get Temperature */
+	float getTemp(SensorPacket * packet)
+	{
+
+	}
+
+	/* get Distance */
+	int getDist(SensorPacket * packet)
+	{
+
+	}
 };
