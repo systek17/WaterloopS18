@@ -13,8 +13,8 @@ class Pod
         SensorPacket *packet;
 
         GetError error;
-        uint8_t state;
-        bool sendCommand(uint8_t command)
+        Byte state;
+        bool sendCommand(Byte command)
         {
             int errcode = 0;
             CommandPacket packet(command);
@@ -41,7 +41,7 @@ class Pod
             //Can check if we need to add more error checking here
 
             wire->beginTransmission(POD_ADDRESS);
-            uint8_t buffer[3];
+            Byte buffer[3];
             buffer[0] = STX;
             buffer[1] = command;
             buffer[2] = ETX;
@@ -53,7 +53,7 @@ class Pod
     public:
         Pod(Wire* w) : state(IDLE), wire(w) {}
 
-        inline uint8_t gState()
+        inline Byte gState()
         {
             return state;
         }

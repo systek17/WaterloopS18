@@ -4,51 +4,55 @@
 
 using namespace std;
 
+inline float32_t getFloatdata(const Pod* pod)
+{
+    float32_t data = 0;
+    for (int i = 0; i < 4; ++i)
+    {
+        data &= pod->wire->read();
+        unsigned int* inta = reinterpret_cast<unsigned int*>(&data);
+        *inta <<= 8;
+    }
+    return data;
+}
 
-bool readSensorPacket(Pod* pod)
+inline Byte getBytedata(const Pod* pod)
+{
+    return pod->wire->read();
+}
+
+bool readSensorPacket(const Pod* pod, SensorPacket* packet)
 {
     pod->wire->beginTransmission(POD_ADDRESS);
     pod->wire->requestFrom(POD_ADDRESS, 32);
 
     if(pod->wire->available() != 32)
         return false;
-    SensorPacket sensorPacket;
+
+    packet = new SensorPacket();
     //NOTE: we can add a bunch of validation here if needed
     //First bytes are separate
-    sensorPacket.startByte = pod->wire->read();
-    sensorPacket.eStates = pod->wire->read();
-    sensorPacket.currentPodStateID = pod->wire->read();
+    packet->sStartB(getBytedata(pod));
+    packet->sErrors(getBytedata(pod));
+    packet->sPodSID(getBytedata(pod));
 
     //Each of the floats is a 4 byte float (32 bits)
     //NOTE: Can come up with a more creative Wire.read() solution later
-    for(int i=0; i<4; i++)
-        sensorPacket.tstamp.arr[i] = pod->wire->read();
 
-    for(int i=0; i<4; i++)
-        sensorPacket.accdata1.arr[i] = pod->wire->read();
+    packet->setTimeStamp(getFloatdata(pod));
+    packet->sAccSensor1(getFloatdata(pod));
+    packet->sAccSensor2(getFloatdata(pod));
+    packet->sAccSensor3(getFloatdata(pod));
+    packet->sTempSensor1(getFloatdata(pod));
+    packet->sTempSensor2(getFloatdata(pod));
+    packet->sTempSensor3(getFloatdata(pod));
 
-    for(int i=0; i<4; i++)
-        sensorPacket.accdata2.arr[i] = pod->wire->read();
+    packet->sEndB(getBytedata(pod));
 
-    for(int i=0; i<4; i++)
-        sensorPacket.accdata3.arr[i] = pod->wire->read();
-
-    for (int i = 0; i < 4; i++)
-        sensorPacket.tempdata1.arr[i] = pod->wire->read();
-
-    for(int i=0; i<4; i++)
-        sensorPacket.tempdata2.arr[i] = pod->wire->read();
-
-    for(int i=0; i<4; i++)
-        sensorPacket.tempdata3.arr[i] = pod->wire->read();
-
-    sensorPacket.endByte = pod->wire->read();
-
-    pod->update(sensorPacket);
+    pod->update(packet);
     pod->wire->endTransmission();
 
-    //GetError error = pod.check_error(packet);
-    return true;
+    return !pod->check_error().hasError();
 }
 
 
@@ -89,10 +93,40 @@ int main()
     Serial serial;
     setup(&pod, &serial);
 
-    bool isOK;
+
+    bool isOK = pod.setReady();
     while (isOK)
     {
-        isOK = readSensorPacket(pod);
+        SensorPacket* packet;
+        bool packetOK = readSensorPacket(&pod, packet);
+
+
+        if (!packetOK)
+        {
+            /* error-checking */
+
+            unsigned code;
+            Byte errors = packet->gErrors(code);
+
+            switch (code)
+            {
+            case SensorPacket::ECode::OK:
+                break;
+            case SensorPacket::ECode::STARTBIT:
+                /* TODO handle for start bit problem */
+                break;
+            case SensorPacket::ECode::ENDBIT:
+                /* TODO handle for end bit problem */
+                break;
+            case SensorPacket::ECode::OTHERBIT:
+                GetError err(errors);
+
+                /* TODO handle which sensor has a problem */
+
+            }
+        }
+
+        delete packet;
     }
 
     // Dummy dump to serial for now.

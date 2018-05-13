@@ -9,8 +9,8 @@
 #define BRAKE 0x04
 #define STOP 0x05
 
-#define STX 0x56;
-#define ETX 0x32;
+#define STX 0x56
+#define ETX 0x32
 
 #define BIT0 0x01
 #define BIT1 0x02
@@ -21,15 +21,12 @@
 #define BIT6 0x40
 #define BIT7 0x80
 
-// char static_assert_float32[1 - (2 * ((sizeof(float) * CHAR_BIT) != 32))];
-
-struct SensorPacket
+class SensorPacket
 {
-    SensorPacket() {};
-
-    uint8_t startByte;
-    uint8_t eStates;
-    uint8_t currentPodStateID;
+private:
+    Byte startByte;
+    Byte eStates;
+    Byte currentPodStateID;
     float32_t tstamp;
     float32_t accdata1;
     float32_t accdata2;
@@ -39,8 +36,56 @@ struct SensorPacket
     float32_t tempdata3;
     float32_t endByte;
 
+public:
+    SensorPacket() {};
+    enum ECode
+    {
+        OK = 0,
+        STARTBIT,
+        ENDBIT,
+        OTHERBIT
+    };
+
+    /* get the state of all errors */
+    Byte gErrors(unsigned& error_code)
+    {
+        if (startByte != STX)
+            error_code = STARTBIT;
+        else if (endByte != ETX)
+            error_code = ENDBIT;
+        else if (eStates)
+            error_code = OTHERBIT;
+        else
+            error_code = OK;
+
+        return eStates;
+    }
+
+    Byte gErrors() const
+    {
+        return eStates;
+    }
+
+    /* set the state of all erorrs */
+    void sErrors(const Byte& data)
+    {
+        eStates = data;
+    }
+
+    /* set the start byte */
+    void sStartB(const Byte& data)
+    {
+        startByte = data;
+    }
+
+    /* set the end byte */
+    void sEndB(const Byte& data)
+    {
+        endByte = data;
+    }
+
     /* Time Stamp */
-    float32_t getTimeStamp()
+    float32_t getTimeStamp() const
     {
         return tstamp;
     }
@@ -50,11 +95,11 @@ struct SensorPacket
     }
 
     /* Pod State ID */
-    uint8_t gPodSID() const //First Bit
+    Byte gPodSID() const //First Bit
     {
         return currentPodStateID;
     }
-    void sPodSID(const uint8_t& ID)
+    void sPodSID(const Byte& ID)
     {
         currentPodStateID = ID;
     }
@@ -122,11 +167,9 @@ struct SensorPacket
 
 struct GetError
 {
-    uint8_t error_state;
-    void setError(const SensorPacket* packet)
-    {
-        error_state = packet->eStates;
-    }
+    Byte error_state;
+    GetError(const Byte& err) : error_state(err) {}
+
     /* Pod State ID */
     int gPodSID() const //First Bit
     {
@@ -167,12 +210,18 @@ struct GetError
     {
         return error_state & BIT6;
     }
+
+    /* check if there is error at all */
+    bool hasError() const
+    {
+        return error_state > 0;
+    }
 };
 
 struct CommandPacket
 {
-    const uint8_t startByte = STX;
-    uint8_t stateID;
-    const uint8_t endByte = ETX;
-    CommandPacket(const uint8_t &command) : stateID(command) {}
+    const Byte startByte = STX;
+    Byte stateID;
+    const Byte endByte = ETX;
+    CommandPacket(const Byte &command) : stateID(command) {}
 };
